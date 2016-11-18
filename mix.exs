@@ -29,6 +29,6 @@ defmodule Mixbot.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:mixcord, path: "../mixcord/"}]
+    [{:mixcord, git: "https://github.com/Kraigie/mixcord.git"}]
   end
 end
