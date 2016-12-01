@@ -1,6 +1,6 @@
-defmodule MixbotTest do
+defmodule MarkhoffTest do
   use ExUnit.Case
-  doctest Mixbot
+  doctest Markhoff
 
   test "the truth" do
     assert 1 + 1 == 2

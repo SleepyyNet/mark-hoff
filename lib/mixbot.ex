@@ -1,3 +1,0 @@
-defmodule Mixbot do
-  
-end

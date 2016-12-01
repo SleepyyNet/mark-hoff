@@ -1,4 +1,4 @@
-defmodule Mixbot.Handlers do
+defmodule Markhoff.Handlers do
   def handle_event({:MESSAGE_CREATE, message}, state) do
     case message.content do
       "PING" ->
