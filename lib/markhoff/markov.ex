@@ -31,16 +31,18 @@ defmodule Markov do
   def traverse(graph, _num, _seed) when map_size(graph) == 0,
     do: {:error, "received empty markov graph"}
   def traverse(graph, num, seed) do
+    split_seed = String.split(seed)
+    seed_length = length(split_seed)
     graph_order = graph
       |> Map.keys
       |> List.first
       |> length
-    seed_length = String.split(seed)
-      |> length
     cond do
       graph_order != seed_length ->
         {:error, "expected seed of order #{graph_order}, received seed with order #{seed_length}"}
-      graph_order == seed_length -> traverse(graph, num - 1, graph_order, String.split seed)
+      graph[split_seed] == nil ->
+        {:error, "seed #{seed} could not be found in markov graph"}
+      graph_order == seed_length -> traverse(graph, num - 1, graph_order, split_seed)
     end
   end
 
@@ -58,8 +60,8 @@ defmodule Markov do
   def build_string(chain, delim \\ ""), do: Enum.join(chain, delim)
 
   def test() do
-    g = generate_graph(@corpus, 2, %{})
-    traverse(g, 10, "")
+    g = generate_graph(@corpus, 1, %{})
+    traverse(g, 10, "like")
   end
 
 end
