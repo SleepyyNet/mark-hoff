@@ -1,17 +1,20 @@
 defmodule Markhoff.Handlers do
-  def handle_event({:MESSAGE_CREATE, message}, state) do
+
+  def handle_event({:MESSAGE_CREATE, message}, _state) do
     case message.content do
-      "PING" ->
-        Mixcord.Api.create_message(message.channel_id, "PONG")
-      "HELLO" ->
-        Mixcord.Api.create_message(message.channel_id, "WORLD")
-      _ ->
-        Mixcord.Api.create_message(message.channel_id, ":>")
+      <<"I>" :: binary, rest :: binary>> ->
+        Task.start fn ->
+          rest
+          |> String.split(" ")
+          |> Markhoff.Commands.handle_command(message)
+        end
+      other ->
+        :ignore
     end
   end
 
-  def handle_event({event, _}, state) do
-    IO.inspect(event)
+  def handle_event({event, _}, _state) do
+    #IO.inspect(event)
   end
 end
 

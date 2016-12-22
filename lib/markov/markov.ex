@@ -1,5 +1,4 @@
 defmodule Markov do
-  @corpus "I like ham. I like eggs. I don't like milk."
 
   def generate_graph(corpus, order, graph) when is_binary(corpus) do
     String.split(corpus) |> generate_graph(order, graph)
@@ -46,7 +45,7 @@ defmodule Markov do
     end
   end
 
-  def traverse(graph, 0, edges, chain), do: {:ok, chain}
+  def traverse(_graph, 0, _edges, chain), do: {:ok, chain}
   def traverse(graph, num, order, chain) do
     last_node = Enum.take(chain, -order)
     case graph[last_node] do
@@ -60,8 +59,8 @@ defmodule Markov do
   def build_string(chain, delim \\ ""), do: Enum.join(chain, delim)
 
   def test() do
-    g = generate_graph(@corpus, 1, %{})
-    traverse(g, 10, "like")
+    # g = generate_graph(@corpus, 1, %{})
+    # traverse(g, 10, "like")
   end
 
 end

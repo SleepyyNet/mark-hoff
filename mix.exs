@@ -15,7 +15,8 @@ defmodule Markhoff.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [:logger, :mixcord]
+      applications: [:logger, :mixcord, :ecto, :postgrex, :timex],
+      mod: {Markhoff, []}
     ]
   end
 
@@ -29,6 +30,12 @@ defmodule Markhoff.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:mixcord, git: "https://github.com/Kraigie/mixcord.git"}]
+    [
+      # {:mixcord, git: "https://github.com/Kraigie/mixcord.git"},
+      {:mixcord, path: "../mixcord"},
+      {:ecto, "~> 2.0"},
+      {:postgrex, "~> 0.11"},
+      {:timex, "~> 3.0"}
+    ]
   end
 end
