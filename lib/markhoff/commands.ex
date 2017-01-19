@@ -6,9 +6,11 @@ defmodule Markhoff.Commands do
     IO.inspect "FINISHED GETTING MESSAGES"
     IO.inspect(DateTime.utc_now)
     Enum.each(messages, fn m ->
-      {ok, time} = Timex.parse(m.timestamp, "{ISO:Extended}")
-      message = %Messages.Message{message_id: m.id, user_id: m.author["id"], content: m.content, timestamp: time}
-      Messages.Repo.insert(message)
+      if not m.author.bot do
+        {ok, time} = Timex.parse(m.timestamp, "{ISO:Extended}")
+        message = %Messages.Message{message_id: m.id, user_id: m.author["id"], content: m.content, timestamp: time}
+        Messages.Repo.insert(message)
+      end
     end)
     IO.inspect(DateTime.utc_now)
   end
