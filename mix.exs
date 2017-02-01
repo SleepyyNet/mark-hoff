@@ -31,8 +31,8 @@ defmodule Markhoff.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      # {:mixcord, git: "https://github.com/Kraigie/mixcord.git"},
-      {:mixcord, path: "../mixcord"},
+      {:mixcord, git: "https://github.com/Kraigie/mixcord.git"},
+      # {:mixcord, git: "../mixcord"},
       {:ecto, "~> 2.0"},
       {:postgrex, "~> 0.11"},
       {:timex, "~> 3.0"}
