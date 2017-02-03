@@ -4,6 +4,9 @@ defmodule Markhoff do
   def start(_, _) do
     import Supervisor.Spec
 
+    :ets.new(:maps, [:set, :public, :named_table])
+    :ets.insert(:maps, {"map", %{}})
+
     children = [
       supervisor(Messages.Repo, [])
     ]
