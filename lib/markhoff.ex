@@ -4,14 +4,12 @@ defmodule Markhoff do
   def start(_, _) do
     import Supervisor.Spec
 
-    :ets.new(:maps, [:set, :public, :named_table])
-    :ets.insert(:maps, {"map", %{}})
+    :ets.new(:parts, [:set, :public, :named_table])
 
-    children = [
-      supervisor(Messages.Repo, [])
-    ]
+    children = for i <- 1..System.schedulers_online, do: worker(MarkhoffConsumer, [], id: i)
+    with_repo = children ++ [supervisor(Messages.Repo, [])]
 
-    Supervisor.start_link(children, strategy: :one_for_one)
+    Supervisor.start_link(with_repo, strategy: :one_for_one)
   end
 
 end
