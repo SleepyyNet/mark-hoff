@@ -3,7 +3,8 @@ defmodule Messages.Message do
 
   schema "messages" do
     field :message_id, :string
-    #field :channel_id, :string
+    field :channel_id, :string
+    field :guild_id, :string
     field :user_id, :string
     field :content, :binary
     field :timestamp, :utc_datetime

@@ -1,4 +1,23 @@
-defmodule Markhoff.Commands do
+defmodule Markhoff.Command do
+  alias Markhoff.Command.Util
+
+  def handle(msg, command) do
+    parts =
+      command
+      |> String.trim
+      |> String.split(" ")
+      |> execute(msg)
+  end
+
+  def execute(["ping"], msg) do
+    Util.ping(msg)
+  end
+
+  def execute(["i", to_eval], msg) do
+    Util.inspect(msg, to_eval)
+  end
+
+  _ = """
   def deep(id) do
     messages = Mixcord.Api.get_channel_messages!(id, 100000, {})
     Enum.each(messages, fn m ->
@@ -23,4 +42,5 @@ defmodule Markhoff.Commands do
   def insert_to_ets(corpus) do
     Markov.generate_graph(corpus.content, 1)
   end
+  """
 end
