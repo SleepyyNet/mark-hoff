@@ -1,12 +1,21 @@
 defmodule Markhoff.Command do
   alias Markhoff.Command.Util
 
-  def handle(msg, command) do
-    parts =
-      command
+  @prefix "I>"
+  @bot_id 259856429450526720
+
+  defp actionable_command?(msg) do
+    String.starts_with?(msg.content, @prefix) and msg.author.id != @bot_id
+  end
+
+  def handle(msg) do
+    if actionable_command?(msg) do  
+      msg.content
       |> String.trim
-      |> String.split(" ")
+      |> String.split(" ", parts: 3)
+      |> tl
       |> execute(msg)
+    end
   end
 
   def execute(["ping"], msg) do
@@ -17,30 +26,4 @@ defmodule Markhoff.Command do
     Util.inspect(msg, to_eval)
   end
 
-  _ = """
-  def deep(id) do
-    messages = Mixcord.Api.get_channel_messages!(id, 100000, {})
-    Enum.each(messages, fn m ->
-      if not m.author.bot do
-        {ok, time} = Timex.parse(m.timestamp, "{ISO:Extended}")
-        message = %Messages.Message{message_id: m.id, user_id: m.author["id"], content: m.content, timestamp: time}
-        Messages.Repo.insert(message)
-      end
-    end)
-  end
-
-  def handle_command(:build, message) do
-    messages = Messages.Message |> Messages.Repo.all
-    do_work_ets_store(messages)
-  end
-
-  def do_work_ets_store(messages) do
-    Task.async_stream(messages, &insert_to_ets(&1))
-      |> Enum.take 100000
-  end
-
-  def insert_to_ets(corpus) do
-    Markov.generate_graph(corpus.content, 1)
-  end
-  """
 end
