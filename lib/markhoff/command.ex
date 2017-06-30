@@ -18,6 +18,10 @@ defmodule Markhoff.Command do
     end
   end
 
+  def execute(["h", method], msg) do
+    Util.help(msg, method)
+  end
+
   def execute(["ping"], msg) do
     Util.ping(msg)
   end
